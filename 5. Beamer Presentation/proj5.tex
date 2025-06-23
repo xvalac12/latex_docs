@@ -1,0 +1,172 @@
+\documentclass{beamer}
+
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{listings}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage{seqsplit}
+
+\newcommand{\SubItem}[1]
+{
+	{\setlength\itemindent{15pt} \item[-] #1}
+}
+
+\usetheme{Goettingen}
+\usecolortheme{beaver}
+
+\title{Bubble sort}
+\subtitle{Triediaci algoritmus}
+\author{Martin Valach}
+\date{\today}
+
+\begin{document}
+	\begin{frame}
+		\titlepage
+	\end{frame}
+
+	\section*{Obsah}
+	\begin{frame}
+		\frametitle{Obsah}
+		\tableofcontents
+	\end{frame}
+
+	\section{Úvod}
+	\subsection{Triediaci algoritmus}
+	\begin{frame}
+		\begin{itemize}
+			\frametitle{Triediaci algoritmus}
+			\item zoradí prvky v určenom poradí
+			\item je dôležitý pre optimalizáciu iných algoritmov
+			\item mal by spĺnať nasledujúce podmienky
+			\SubItem{výstup je v neklesajúcom poradí}
+			\SubItem{výstup je permutáciou vstupu}
+		\end{itemize}
+	\end{frame}
+
+
+	\subsection{Bublinkové triedenie}
+	\begin{frame}
+		\frametitle{Bublinkové triedenie (Bubble Sort)}
+		\begin{itemize}
+			\item implementačne jednoduchý výmenný triediaci algoritmus
+			\item pracuje na mieste a nepatrí medzi prirodzené triediace algoritmy
+			\item vďaka jednoduchosti je tento algoritmus často používaný ako základ do triediacich algoritmov
+			\item často sa používa v počítačovej grafike, pretože dokáže detekovať veľmi malé chyby
+		\end{itemize}
+	\end{frame}
+
+	\section{Algoritmus}	
+	\subsection{Princíp}
+	\begin{frame}
+		\frametitle{Princíp}
+		\begin{itemize}
+			\item porovnáva 2 susedné prvky, ak je ten nižší naľavo, tak ich prehodí
+			\item s takýmto princípom pokračuje na ďalší index
+			\item ak sú prvky v správnom poradí, tak ich neprehodí
+			\item na konci iterácie je na konci vždy najnižšia hodnota
+			\item potom sa skrátený algoritmus spustí znovu (na poslednej pozícií je už správne číslo)
+			\item po $n - 1$ algoritmoch sú hodnoty zoradené
+		\end{itemize}
+	\end{frame}
+	
+	\subsection{Príklad algoritmu}
+	\begin{frame}
+		\begin{example}
+			\begin{itemize}
+				\item <1-> ( \textbf{7 3} 5 8 2 ) $–>$ ( \textbf{7 3} 5 8 2 ) Nič sa nemení, $7 > 3$ 
+				\item <2-> ( 7 \textbf{3 5} 8 2 ) $–>$ ( 7 \textbf{5 3} 8 2 ) Výmena, $3 < 5$
+				\item <3-> ( 7 5 \textbf{3 8} 2 ) $–>$ ( 7 5 \textbf{8 3} 2 ) Výmena, $3 < 8$
+				\item <4-> ( 7 5 8 \textbf{3 2} ) $–>$ ( 7 5 8 \textbf{3 2} ) Nič sa nemení, $3 > 2$
+
+				\item <5-> ( \textbf{7 5} 8 3 2 ) $–>$ ( \textbf{7 5} 8 3 2 ) Nič sa nemení, $7 > 5$
+				\item <6-> ( 7 \textbf{5 8} 3 2 ) $–>$ ( 7 \textbf{8 5} 3 2 ) Výmena, $5 < 8$
+				\item <7-> ( 7 8 \textbf{5 3} 2 ) $–>$ ( 7 8 \textbf{5 3} 2 ) Nič sa nemení, $5 > 3$
+				\item <8-> ( 7 8 5 \textbf{3 2} ) $–>$ ( 7 8 5 \textbf{3 2} ) Nič sa nemení, $3 > 2$
+
+				\item <9-> ( \textbf{7 8} 5 3 2 ) $–>$ ( \textbf{8 7} 5 3 2 ) Výmena, $7 < 8$
+				\item <10-> ( 8 \textbf{7 5} 3 2 ) $–>$ ( 8 \textbf{7 5} 3 2 ) Nič sa nemení
+				\item <10-> ( 8 7 \textbf{5 3} 2 ) $–>$ ( 8 7 \textbf{5 3} 2 ) Nič sa nemení
+				\item <10-> ( 8 7 5 \textbf{3 2} ) $–>$ ( 8 7 5 \textbf{3 2} ) Nič sa nemení
+			\end{itemize}
+		\end{example}
+	\end{frame}
+
+	\section{Príklady}
+	\subsection{Všeobecný}	
+	\begin{frame}[fragile]
+		\frametitle{Všeobecný algoritmus}
+		\begin{verbatim}
+			Pre i od 1 po (počet prvkov)
+			  Pre j od 1 po (počet prvkov - i)
+			    Ak zoznam[j] > zoznam[j+1]
+			      Vymeň zoznam[j] za zoznam[j+1]
+		\end{verbatim}
+	\end{frame}
+
+	\subsection{Java}
+	\begin{frame}[fragile]
+		\frametitle{V jazyku Java}
+		\begin{verbatim}
+			public static void bubbleSort(int[] array){
+			  for (int i=0; i<array.length-1; i++){
+			    for (int j=0;j<array.length-i-1;j++){
+			      if(array[j] < array[j+1]){
+			        int tmp = array[j];
+			        array[j] = array[j+1];
+			        array[j+1] = tmp;
+			      }
+			    }
+			  }
+			}   
+		\end{verbatim}
+	\end{frame}
+
+	\subsection{C++}
+	\begin{frame}[fragile]
+		\frametitle{V jazyku C++}
+		\begin{verbatim}
+			void bubbleSort(int * array, int size){
+			  for(int i = 0; i < size - 1; i++){
+			    for(int j = 0; j < size-i-1; j++){
+			      if(array[j+1] < array[j]){
+			        int tmp = array[j + 1];
+			        array[j + 1] = array[j];
+			        array[j] = tmp;
+			      }
+			    }
+			  }   
+			}
+		\end{verbatim}
+	\end{frame}
+
+	\section{Zložitosť}
+	\begin{frame}
+		\frametitle{Zložitosť}
+		\begin{itemize}
+			\item najhoršia zložitosť je $0(n^2)$
+			\item tento algoritmus je jeden z najneefektívnejších
+			\item oproti ostatným s podobnou zložitosťou vyžaduje veľa zápisov do pamäte
+			\item je len veľmi málo prípadov, v ktorých by mal navrch oproti ostatným algoritmom
+		\end{itemize}
+	\end{frame}
+	
+	\section{Bibliografické zdroje}
+	\begin{frame}
+		\frametitle{Bibliografické zdroje}
+		\begin{thebibliography}{10}
+			\bibitem{Wikipedia}{Helix84, 2006}
+			Wikipedia
+			\newblock \url{sk.wikipedia.org/wiki/Triediaci_algoritmus}
+			\newblock \emph{Triediaci algoritmus}
+
+			\bibitem{Algoritmy}{Anonym, 2005}
+			Algoritmy.net
+				\newblock \url{algoritmy.net/article/3/Bubble-sort}
+			\newblock \emph{Bubble sort}
+		\end{thebibliography}
+	\end{frame}
+	
+\end{document}
